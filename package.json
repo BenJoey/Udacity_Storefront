@@ -10,7 +10,7 @@
     "jasmine": "jasmine-ts",
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./build --onSuccess 'node ./build/server.js'",
     "test": "npm run build && npm run jasmine",
-    "start": "node src/server.ts"
+    "start": "node build/server.js"
   },
   "repository": {
     "type": "git",
