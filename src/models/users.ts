@@ -1,4 +1,8 @@
 import client from '../database';
+import bcrypt from 'bcrypt';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export type User = {
   id?: string;
@@ -47,10 +51,15 @@ export class UserStore {
       // @ts-ignore
       const conn = await client.connect();
 
+      const hash = bcrypt.hashSync(
+      user.password + process.env.BRCYPT_PASSWORD, 
+      parseInt(process.env.SALT_ROUNDS as string)
+   );
+
       const result = await conn.query(sql, [
         user.firstname,
         user.lastname,
-        user.password
+        hash
       ]);
 
       const us = result.rows[0];
