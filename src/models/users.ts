@@ -47,7 +47,11 @@ export class UserStore {
       // @ts-ignore
       const conn = await client.connect();
 
-      const result = await conn.query(sql, [user.firstname, user.lastname, user.password]);
+      const result = await conn.query(sql, [
+        user.firstname,
+        user.lastname,
+        user.password
+      ]);
 
       const us = result.rows[0];
 

@@ -47,7 +47,11 @@ export class ProductStore {
       // @ts-ignore
       const conn = await client.connect();
 
-      const result = await conn.query(sql, [product.name, product.price, product.category]);
+      const result = await conn.query(sql, [
+        product.name,
+        product.price,
+        product.category
+      ]);
 
       const prod = result.rows[0];
 
