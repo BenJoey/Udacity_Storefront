@@ -6,6 +6,7 @@ dotenv.config();
 
 export type User = {
   id?: string;
+  username: string;
   firstname: string;
   lastname: string;
   password: string;
@@ -47,7 +48,7 @@ export class UserStore {
   async create(user: User): Promise<User> {
     try {
       const sql =
-        'INSERT INTO users (firstname, lastname, password) VALUES($1, $2, $3) RETURNING *';
+        'INSERT INTO users (username, firstname, lastname, password) VALUES($1, $2, $3, $4) RETURNING *';
       // @ts-ignore
       const conn = await client.connect();
 
@@ -57,6 +58,7 @@ export class UserStore {
    );
 
       const result = await conn.query(sql, [
+        user.username,
         user.firstname,
         user.lastname,
         hash
@@ -68,7 +70,7 @@ export class UserStore {
 
       return us;
     } catch (err) {
-      throw new Error(`Could not add user ${user.firstname}. Error: ${err}`);
+      throw new Error(`Could not add user ${user.username}. Error: ${err}`);
     }
   }
 
@@ -90,13 +92,13 @@ export class UserStore {
     }
   }
 
-  async authenticate(firstname: string, lastname:string, password: string): Promise<User | null> {
+  async authenticate(username: string, password: string): Promise<User | null> {
     try {
-      const sql = 'SELECT password FROM users WHERE firstname=($1) AND lastname=($2)';
+      const sql = 'SELECT password FROM users WHERE username=($1)';
       // @ts-ignore
       const conn = await client.connect();
 
-      const result = await conn.query(sql, [firstname, lastname]);
+      const result = await conn.query(sql, [username]);
 
       if(result.rows.length) {
 
@@ -109,7 +111,7 @@ export class UserStore {
       }
     }
     } catch (err) {
-      throw new Error(`Could access user. Error: ${err}`);
+      throw new Error(`Could access user: ${username}. Error: ${err}`);
     }
     return null;
   }
