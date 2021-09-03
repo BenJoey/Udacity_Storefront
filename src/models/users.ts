@@ -47,7 +47,7 @@ export class UserStore {
   async create(user: User): Promise<User> {
     try {
       const sql =
-        'INSERT INTO products (firstname, lastname, password) VALUES($1, $2, $3) RETURNING *';
+        'INSERT INTO users (firstname, lastname, password) VALUES($1, $2, $3) RETURNING *';
       // @ts-ignore
       const conn = await client.connect();
 
@@ -74,7 +74,7 @@ export class UserStore {
 
   async delete(id: string): Promise<User> {
     try {
-      const sql = 'DELETE FROM products WHERE id=($1)';
+      const sql = 'DELETE FROM users WHERE id=($1)';
       // @ts-ignore
       const conn = await client.connect();
 
@@ -88,5 +88,29 @@ export class UserStore {
     } catch (err) {
       throw new Error(`Could not delete user. Error: ${err}`);
     }
+  }
+
+  async authenticate(firstname: string, lastname:string, password: string): Promise<User | null> {
+    try {
+      const sql = 'SELECT password FROM users WHERE firstname=($1) AND lastname=($2)';
+      // @ts-ignore
+      const conn = await client.connect();
+
+      const result = await conn.query(sql, [firstname, lastname]);
+
+      if(result.rows.length) {
+
+      const user = result.rows[0]
+
+      console.log(user)
+
+      if (bcrypt.compareSync(password+process.env.BRCYPT_PASSWORD, user.password)) {
+        return user
+      }
+    }
+    } catch (err) {
+      throw new Error(`Could access user. Error: ${err}`);
+    }
+    return null;
   }
 }
