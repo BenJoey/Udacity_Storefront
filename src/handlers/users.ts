@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import { User, UserStore } from '../models/users';
+import verifyAuthToken from '../middlewares/verification';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
@@ -58,9 +59,9 @@ const authenticate = async (req: Request, res: Response) => {
 };
 
 const userRoutes = (app: express.Application) => {
-  app.get('/users', index);
-  app.get('/users/:id', show);
-  app.post('/users', create);
+  app.get('/users', verifyAuthToken, index);
+  app.get('/users/:id', verifyAuthToken, show);
+  app.post('/users', verifyAuthToken, create);
   app.delete('/users', destroy);
 };
 
