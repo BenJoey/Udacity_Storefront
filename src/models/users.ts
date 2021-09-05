@@ -74,7 +74,7 @@ export class UserStore {
     }
   }
 
-  async delete(id: string): Promise<User> {
+  async delete(id: string | number): Promise<User> {
     try {
       const sql = 'DELETE FROM users WHERE id=($1)';
       // @ts-ignore
