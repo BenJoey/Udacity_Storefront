@@ -5,6 +5,7 @@ const userStore = new UserStore();
 
 describe('Order Models', () => {
   beforeAll(async () => {
+    // create a user so that it can be referenced in orders table
     const result = await userStore.create({
       id: '1',
       username: 'oblong',
@@ -12,7 +13,6 @@ describe('Order Models', () => {
       lastname: 'Smith',
       password: 'password123'
     });
-    console.log('resid: ' + result.id);
   });
   it('should have an index method', () => {
     expect(store.index).toBeDefined();
