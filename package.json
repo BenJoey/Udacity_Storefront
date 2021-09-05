@@ -4,12 +4,12 @@
   "description": "Second assignment for udacity course Full Stack Javascript developer",
   "main": "server.ts",
   "scripts": {
-    "prettier": "prettier --config .prettierrc \"src/**/database.ts\" --write",
+    "prettier": "prettier --config .prettierrc \"src/**/*.ts\" --write",
     "lint": "eslint --config .eslintrc \"src/**/*.ts\"",
     "build": "npx tsc",
     "jasmine": "jasmine-ts",
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./build --onSuccess 'node ./build/server.js'",
-    "test": "ENV=test db-migrate --env test up && jasmine-ts && db-migrate db:drop test",
+    "test": "db-migrate --env test up && jasmine-ts && db-migrate down --env test -c 4",
     "start": "node build/server.js"
   },
   "repository": {
