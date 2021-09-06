@@ -13,6 +13,11 @@ const show = async (req: Request, res: Response) => {
   res.json(orders);
 };
 
+const orderByUser = async (req: Request, res: Response) => {
+  const orders = await store.show(req.body.user_id);
+  res.json(orders);
+};
+
 const create = async (req: Request, res: Response) => {
   try {
     const order: Order = {
@@ -50,6 +55,7 @@ const addProduct = async (_req: Request, res: Response) => {
 const orderRoutes = (app: express.Application) => {
   app.get('/orders', index);
   app.get('/orders/:id', show);
+  app.get('/ordersbyuser/:id', orderByUser);
   app.post('/orders', create);
   app.delete('/orders', destroy);
   // add product
