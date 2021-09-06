@@ -76,6 +76,22 @@ export class OrderStore {
     }
   }
 
+  async orderByUser(user_id: string): Promise<Order> {
+    try {
+      const sql = 'SELECT * FROM orders WHERE user_id=($1) AND status=($2)';
+      // @ts-ignore
+      const conn = await client.connect();
+
+      const result = await conn.query(sql, [user_id, 'active']);
+
+      conn.release();
+
+      return result.rows[0];
+    } catch (err) {
+      throw new Error(`Could not get order by user ${user_id}. Error: ${err}`);
+    }
+  }
+
   async addProduct(
     quantity: number,
     orderId: string,

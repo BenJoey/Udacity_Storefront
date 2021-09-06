@@ -25,7 +25,7 @@ export class UserStore {
 
       return result.rows;
     } catch (err) {
-      throw new Error(`Could not get articles. Error: ${err}`);
+      throw new Error(`Could not get users. Error: ${err}`);
     }
   }
 
@@ -53,9 +53,9 @@ export class UserStore {
       const conn = await client.connect();
 
       const hash = bcrypt.hashSync(
-      user.password + process.env.BRCYPT_PASSWORD, 
-      parseInt(process.env.SALT_ROUNDS as string)
-   );
+        user.password + process.env.BRCYPT_PASSWORD,
+        parseInt(process.env.SALT_ROUNDS as string)
+      );
 
       const result = await conn.query(sql, [
         user.username,
@@ -100,16 +100,20 @@ export class UserStore {
 
       const result = await conn.query(sql, [username]);
 
-      if(result.rows.length) {
+      if (result.rows.length) {
+        const user = result.rows[0];
 
-      const user = result.rows[0]
+        console.log(user);
 
-      console.log(user)
-
-      if (bcrypt.compareSync(password+process.env.BRCYPT_PASSWORD, user.password)) {
-        return user
+        if (
+          bcrypt.compareSync(
+            password + process.env.BRCYPT_PASSWORD,
+            user.password
+          )
+        ) {
+          return user;
+        }
       }
-    }
     } catch (err) {
       throw new Error(`Could access user: ${username}. Error: ${err}`);
     }

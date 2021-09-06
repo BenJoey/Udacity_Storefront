@@ -30,12 +30,12 @@ describe('Order Models', () => {
     const result = await store.create({
       id: 1,
       user_id: 1,
-      status: 'open'
+      status: 'active'
     });
     expect(result).toEqual({
       id: 1,
       user_id: '1',
-      status: 'open'
+      status: 'active'
     });
   });
 
@@ -45,7 +45,7 @@ describe('Order Models', () => {
       {
         id: 1,
         user_id: '1',
-        status: 'open'
+        status: 'active'
       }
     ]);
   });
@@ -55,7 +55,16 @@ describe('Order Models', () => {
     expect(result).toEqual({
       id: 1,
       user_id: '1',
-      status: 'open'
+      status: 'active'
+    });
+  });
+
+  it('orderbyuser method should return the correct order by the userid', async () => {
+    const result = await store.orderByUser('1');
+    expect(result).toEqual({
+      id: 1,
+      user_id: '1',
+      status: 'active'
     });
   });
 
