@@ -1,12 +1,14 @@
 import supertest from 'supertest';
 import app from '../../server';
+import jwt from 'jsonwebtoken';
 
 const request = supertest(app);
 
 describe('Test orders endpoints', () => {
   let authToken: string = "";
   let createdProdId: number = 0;
-  beforeAll(async () => {
+
+  beforeAll( async () => {
     // create a signed in user to test auth required endpoints
     const payload = {
       username: "oblong",
@@ -48,7 +50,9 @@ describe('Test orders endpoints', () => {
     const response = await request.delete('/products').send({id: createdProdId}).set('Authorization', authToken);
   });
 
-  afterAll(() => {
-    
+  afterAll( async () => {
+    // delete the created user
+    const decoded: {user: {id:string}} = jwt.decode(authToken) as {user: {id:string}};
+    const resp = await request.delete('/users').send({id: decoded.user.id}).set('Authorization', authToken);
   });
 });
