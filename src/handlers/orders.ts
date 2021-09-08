@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import verifyAuthToken from '../middlewares/verification';
 import { Order, OrderStore } from '../models/orders';
 
 const store = new OrderStore();
@@ -55,9 +56,9 @@ const addProduct = async (_req: Request, res: Response) => {
 const orderRoutes = (app: express.Application) => {
   app.get('/orders', index);
   app.get('/orders/:id', show);
-  app.get('/ordersbyuser/:id', orderByUser);
-  app.post('/orders', create);
-  app.delete('/orders', destroy);
+  app.get('/ordersbyuser/:id', verifyAuthToken, orderByUser);
+  app.post('/orders', verifyAuthToken, create);
+  app.delete('/orders', verifyAuthToken, destroy);
   // add product
   app.post('/orders/:id/products', addProduct);
 };
