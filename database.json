@@ -3,14 +3,14 @@
     "driver": "pg",
     "host": "127.0.0.1",
     "database": "storefront",
-    "user": "bence",
-    "password": "password123"
+    "user": {"ENV": "POSTGRES_USER"},
+    "password": {"ENV": "POSTGRES_PASSWORD"}
   },
   "test": {
     "driver": "pg",
     "host": "127.0.0.1",
     "database": "storefront_test",
-    "user": "bence",
-    "password": "password123"
+    "user": {"ENV": "POSTGRES_USER"},
+    "password": {"ENV": "POSTGRES_PASSWORD"}
   }
 }

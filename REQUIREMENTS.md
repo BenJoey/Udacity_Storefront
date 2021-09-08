@@ -29,23 +29,44 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 #### Product
 
-- id (SERIAL KEY)
-- name VARCHAR(150)
-- price integer
+- id
+- name
+- price
 - [OPTIONAL] category
+
+```
+Table: Products (id:serial[primary key], name:varchar(150)[not null], price:numeric[not null], category:varchar(150))
+```
 
 #### User
 
-- id (SERIAL KEY)
-- username VARCHAR(150)
-- firstName VARCHAR(150)
-- lastName VARCHAR(150)
-- password VARCHAR(255)
+- id
+- username
+- firstName
+- lastName
+- password
+
+```
+Table: Users (id:serial[primary key], username:varchar(150)[not null], firstname:varchar(150)[not null], lastname:varchar(150)[not null], password:varchar(255)[not null])
+```
 
 #### Orders
 
-- id (SERIAL KEY)
-- id of each product in the order
-- quantity of each product in the order
-- user_id FOREIN KEY
-- status of order (active or complete) VARCHAR(15)
+- id
+- user_id
+- status of order (active or complete)
+
+```
+Table: Orders (id:serial[primary key], user_id:integer(foreign key to users table), status:varchar(15))
+```
+
+#### Order-Products
+
+- id
+- quantity
+- order_id
+- product_id
+
+```
+Table: Order-Products (id:serial[primary key], quantity:numeric[not null], order_id:integer(foreign key to orders table), product_id:integer(foreign key to products table))
+```

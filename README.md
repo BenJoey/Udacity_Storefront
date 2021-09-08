@@ -1,9 +1,15 @@
 # Udacity_Storefront
 
-# Requirements:
+## Requirements:
 
-- 2 databases: storefront & storefront_test
-- db user: bence with the following password: "password123"
+```sh
+CREATE USER test_user WITH PASSWORD 'password123';
+CREATE DATABASE storefront;
+CREATE DATABASE storefront_test;
+GRANT ALL PRIVILEGES ON DATABASE storefront TO test_user;
+GRANT ALL PRIVILEGES ON DATABASE storefront_test TO test_user;
+```
+
 - fill out the sample env file (set the ENV variable to `test` when running tests)
 - run the migrations via `db-migrate up -c 4`
 - start the server via `yarn watch`
