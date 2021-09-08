@@ -4,8 +4,8 @@ const store = new OrderStore();
 const userStore = new UserStore();
 
 describe('Order Models', () => {
-  let createdUserId:string = '';
-  let createdOrderId:number = 0;
+  let createdUserId = '';
+  let createdOrderId = 0;
 
   beforeAll(async () => {
     // create a user so that it can be referenced in orders table

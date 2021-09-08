@@ -9,7 +9,6 @@ export type Order = {
 export class OrderStore {
   async index(): Promise<Order[]> {
     try {
-      // @ts-ignore
       const conn = await client.connect();
       const sql = 'SELECT * FROM orders';
 
@@ -26,7 +25,6 @@ export class OrderStore {
   async show(id: number): Promise<Order> {
     try {
       const sql = 'SELECT * FROM orders WHERE id=($1)';
-      // @ts-ignore
       const conn = await client.connect();
 
       const result = await conn.query(sql, [id]);
@@ -43,7 +41,6 @@ export class OrderStore {
     try {
       const sql =
         'INSERT INTO orders (user_id, status) VALUES($1, $2) RETURNING *';
-      // @ts-ignore
       const conn = await client.connect();
 
       const result = await conn.query(sql, [order.user_id, order.status]);
@@ -61,7 +58,6 @@ export class OrderStore {
   async delete(id: number): Promise<Order> {
     try {
       const sql = 'DELETE FROM orders WHERE id=($1)';
-      // @ts-ignore
       const conn = await client.connect();
 
       const result = await conn.query(sql, [id]);
@@ -79,7 +75,6 @@ export class OrderStore {
   async orderByUser(user_id: string): Promise<Order> {
     try {
       const sql = 'SELECT * FROM orders WHERE user_id=($1) AND status=($2)';
-      // @ts-ignore
       const conn = await client.connect();
 
       const result = await conn.query(sql, [user_id, 'active']);
@@ -100,8 +95,7 @@ export class OrderStore {
     try {
       const sql =
         'INSERT INTO order_products (quantity, order_id, product_id) VALUES($1, $2, $3) RETURNING *';
-      //@ts-ignore
-      const conn = await Client.connect();
+      const conn = await client.connect();
 
       const result = await conn.query(sql, [quantity, orderId, productId]);
 

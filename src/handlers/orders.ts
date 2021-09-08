@@ -53,7 +53,7 @@ const addProduct = async (_req: Request, res: Response) => {
   }
 };
 
-const orderRoutes = (app: express.Application) => {
+const orderRoutes = (app: express.Application): void => {
   app.get('/orders', index);
   app.get('/orders/:id', show);
   app.get('/ordersbyuser/:id', verifyAuthToken, orderByUser);

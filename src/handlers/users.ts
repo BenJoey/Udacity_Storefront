@@ -28,7 +28,10 @@ const create = async (req: Request, res: Response) => {
     };
 
     const newUser = await store.create(user);
-    var token = jwt.sign({ user: newUser }, process.env.TOKEN_SECRET as string);
+    const token = jwt.sign(
+      { user: newUser },
+      process.env.TOKEN_SECRET as string
+    );
     res.json(token);
   } catch (err) {
     res.status(400);
@@ -50,7 +53,7 @@ const authenticate = async (req: Request, res: Response) => {
   };
   try {
     const u = await store.authenticate(user.username, user.password);
-    var token = jwt.sign({ user: u }, process.env.TOKEN_SECRET as string);
+    const token = jwt.sign({ user: u }, process.env.TOKEN_SECRET as string);
     res.json(token);
   } catch (error) {
     res.status(401);
@@ -58,11 +61,12 @@ const authenticate = async (req: Request, res: Response) => {
   }
 };
 
-const userRoutes = (app: express.Application) => {
+const userRoutes = (app: express.Application): void => {
   app.get('/users', verifyAuthToken, index);
   app.get('/users/:id', verifyAuthToken, show);
   //i needed to remove auth from here because i could not create a user for endpoint tests
   app.post('/users', create);
+  app.post('/users/:auth', authenticate);
   app.delete('/users', verifyAuthToken, destroy);
 };
 

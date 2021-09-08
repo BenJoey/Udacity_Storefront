@@ -35,7 +35,7 @@ const destroy = async (req: Request, res: Response) => {
   res.json(deleted);
 };
 
-const productRoutes = (app: express.Application) => {
+const productRoutes = (app: express.Application): void => {
   app.get('/products', index);
   app.get('/products/:id', show);
   app.post('/products', verifyAuthToken, create);
