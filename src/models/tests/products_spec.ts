@@ -2,6 +2,7 @@ import { ProductStore } from '../products';
 const store = new ProductStore();
 
 describe('Product Models', () => {
+  let createdProdId: number;
   it('should have an index method', () => {
     expect(store.index).toBeDefined();
   });
@@ -21,8 +22,9 @@ describe('Product Models', () => {
       price: 200,
       category: 'TestCategory'
     });
+    createdProdId = result.id as number;
     expect(result).toEqual({
-      id: 1,
+      id: createdProdId,
       name: 'TestProduct',
       price: 200,
       category: 'TestCategory'
@@ -33,7 +35,7 @@ describe('Product Models', () => {
     const result = await store.index();
     expect(result).toEqual([
       {
-        id: 1,
+        id: createdProdId,
         name: 'TestProduct',
         price: 200,
         category: 'TestCategory'
@@ -42,9 +44,9 @@ describe('Product Models', () => {
   });
 
   it('show method should return the correct product', async () => {
-    const result = await store.show('1');
+    const result = await store.show(createdProdId);
     expect(result).toEqual({
-      id: 1,
+      id: createdProdId,
       name: 'TestProduct',
       price: 200,
       category: 'TestCategory'
@@ -52,7 +54,7 @@ describe('Product Models', () => {
   });
 
   it('delete method should remove the product', async () => {
-    await store.delete('1');
+    await store.delete(createdProdId);
     const result = await store.index();
 
     expect(result).toEqual([]);

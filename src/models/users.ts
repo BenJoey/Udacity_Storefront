@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export type User = {
-  id?: string;
+  id?: number;
   username: string;
   firstname: string;
   lastname: string;
@@ -29,7 +29,7 @@ export class UserStore {
     }
   }
 
-  async show(id: string): Promise<User> {
+  async show(id: number): Promise<User> {
     try {
       const sql = 'SELECT * FROM users WHERE id=($1)';
       // @ts-ignore
@@ -74,7 +74,7 @@ export class UserStore {
     }
   }
 
-  async delete(id: string | number): Promise<User> {
+  async delete(id: number): Promise<User> {
     try {
       const sql = 'DELETE FROM users WHERE id=($1)';
       // @ts-ignore

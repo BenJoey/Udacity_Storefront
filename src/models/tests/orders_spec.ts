@@ -7,7 +7,7 @@ describe('Order Models', () => {
   beforeAll(async () => {
     // create a user so that it can be referenced in orders table
     const result = await userStore.create({
-      id: '1',
+      id: 1,
       username: 'oblong',
       firstname: 'John',
       lastname: 'Smith',

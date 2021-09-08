@@ -6,6 +6,7 @@ dotenv.config();
 const store = new UserStore();
 
 describe('User Models', () => {
+  let createdUserId: number;
   it('should have an index method', () => {
     expect(store.index).toBeDefined();
   });
@@ -20,12 +21,13 @@ describe('User Models', () => {
 
   it('create method should add an user', async () => {
     const result = await store.create({
-      id: '2',
+      id: 1,
       username: 'oblong',
       firstname: 'John',
       lastname: 'Smith',
       password: 'password123'
     });
+    createdUserId = result.id as number;
     expect(result.username).toEqual('oblong');
     expect(result.firstname).toEqual('John');
     expect(result.lastname).toEqual('Smith');
@@ -39,7 +41,7 @@ describe('User Models', () => {
   });
 
   it('show method should return the correct user', async () => {
-    const result = await store.show('2');
+    const result = await store.show(createdUserId);
     expect(result.username).toEqual('oblong');
     expect(result.firstname).toEqual('John');
     expect(result.lastname).toEqual('Smith');
@@ -47,7 +49,7 @@ describe('User Models', () => {
 
   it('delete method should remove the user', async () => {
     const prevResult = await store.index();
-    await store.delete('2');
+    await store.delete(createdUserId);
     const result = await store.index();
 
     expect(prevResult.length - result.length).toEqual(1);
